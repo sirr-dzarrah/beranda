@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sapta Engine</title>
+  <style>
+    :root {
+      --primary: #2d89ef;
+      --bg: #f0f2f5;
+      --text: #333;
+      --card: white;
+    }
+
+    body.dark {
+      --primary: #4fc3f7;
+      --bg: #1e1e1e;
+      --text: #f0f0f0;
+      --card: #2a2a2a;
+    }
+
+    body.sepia {
+      --primary: #a0522d;
+      --bg: #f4ecd8;
+      --text: #3e2f1c;
+      --card: #fff8e7;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2vh 2vw;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    header {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 2vh;
+    }
+
+    header h1 {
+      font-size: 4vw;
+      color: var(--primary);
+      position: absolute;
+      top: 1vh;
+      left: 2vw;
+    }
+
+    .controls {
+      color: var(--primary);
+      position: absolute;
+      top: 1vh;
+      right: 2vw;
+    }
+
+    .controls select {
+      padding: 0.4em 1em;
+      font-size: 1em;
+      cursor: pointer;
+    }
+
+    #clock {
+      position: fixed;
+      bottom: 1vh;
+      right: 2vw;
+      font-size: 0.9em;
+      opacity: 0.7;
+    }
+
+    .search-box {
+      margin: 3vh auto;
+      width: 90%;
+      max-width: 600px;
+      opacity: 0.7;
+    }
+
+    .search-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      width: 100%;
+    }
+
+    .search-wrapper input {
+      flex: 1;
+      padding: 1em 1em 1em 3.2em;
+      font-size: 1.2em;
+      border: 2px solid var(--primary);
+      border-radius: 10px;
+      background: var(--card);
+      color: var(--text);
+    }
+
+    #engineIcon {
+      position: absolute;
+      left: 10px;
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 105%;
+      left: 10px;
+      background: var(--card);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      display: flex;
+      gap: 0.5em;
+      padding: 0.5em;
+      z-index: 100;
+    }
+
+    .dropdown img {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      border-radius: 4px;
+      transition: transform 0.2s ease;
+    }
+
+    .dropdown img:hover {
+      transform: scale(1.2);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .quick-links {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1em;
+      margin-top: 4vh;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .quick-links a {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.5em;
+      text-align: center;
+      text-decoration: none;
+      color: var(--primary);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .quick-links a:hover {
+      transform: translateY(-5px);
+    }
+
+    @media (orientation: landscape) {
+      header h1 {
+        font-size: 2vw;
+      }
+
+      .search-wrapper input {
+        font-size: 1vw;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .search-wrapper input {
+        font-size: 1em;
+      }
+
+      .quick-links a {
+        padding: 1em;
+        font-size: 0.9em;
+      }
+
+      #clock {
+        font-size: 0.8em;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="controls">
+    <select id="themeSelector">
+      <option value="light">🌞</option>
+      <option value="dark">🌙</option>
+      <option value="sepia">📜</option>
+    </select>
+  </div>
+
+  <header>
+    <h1>MBC SUKOHARJO</h1>
+  </header>
+
+  <div class="search-box">
+    <div class="search-wrapper">
+      <img id="engineIcon" src="https://www.google.com/favicon.ico" alt="Search engine icon" role="button" tabindex="0" />
+      <input type="text" placeholder="Telusuri sesuatu..." id="searchInput" />
+      <div id="engineDropdown" class="dropdown hidden">
+        <img src="https://www.google.com/favicon.ico" data-engine="google" alt="Google" title="Google" />
+        <img src="https://www.youtube.com/favicon.ico" data-engine="youtube" alt="YouTube" title="YouTube" />
+        <img src="https://www.yahoo.com/favicon.ico" data-engine="yahoo" alt="Yahoo" title="Yahoo" />
+        <img src="https://www.msn.com/favicon.ico" data-engine="msn" alt="MSN" title="MSN" />
+      </div>
+    </div>
+  </div>
+
+  <section class="quick-links">
+    <a href="https://google.com" target="_blank" rel="noopener noreferrer">Google</a>
+    <a href="https://youtube.com" target="_blank" rel="noopener noreferrer">YouTube</a>
+    <a href="https://chat.openai.com" target="_blank" rel="noopener noreferrer">ChatGPT</a>
+    <a href="https://web.whatsapp.com" target="_blank" rel="noopener noreferrer">WA-Web</a>
+    <a href="#" target="_blank" rel="noopener noreferrer">Custom Link</a>
+  </section>
+
+  <div id="clock">--:--:--</div>
+
+  <script>
+    // Jam digital real-time
+    function updateClock() {
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString('id-ID');
+      document.getElementById('clock').textContent = timeStr;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Tema
+    const selector = document.getElementById('themeSelector');
+    function applyTheme(value) {
+      document.body.classList.remove('dark', 'sepia');
+      if (value === 'dark') document.body.classList.add('dark');
+      else if (value === 'sepia') document.body.classList.add('sepia');
+      localStorage.setItem('theme', value);
+    }
+    selector.addEventListener('change', (e) => applyTheme(e.target.value));
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    selector.value = savedTheme;
+    applyTheme(savedTheme);
+
+    // Mesin pencari
+    let currentEngine = 'google';
+    const engineIcon = document.getElementById('engineIcon');
+    const engineDropdown = document.getElementById('engineDropdown');
+    const engineIcons = {
+      google: 'https://www.google.com/favicon.ico',
+      youtube: 'https://www.youtube.com/favicon.ico',
+      yahoo: 'https://www.yahoo.com/favicon.ico',
+      msn: 'https://www.msn.com/favicon.ico',
+    };
+
+    // Muat mesin dari localStorage
+    const savedEngine = localStorage.getItem('searchEngine');
+    if (savedEngine && engineIcons[savedEngine]) {
+      currentEngine = savedEngine;
+      engineIcon.src = engineIcons[savedEngine];
+    }
+
+    engineIcon.addEventListener('click', () => {
+      engineDropdown.classList.toggle('hidden');
+    });
+
+    // Pilih mesin
+    engineDropdown.querySelectorAll('img').forEach(img => {
+      img.addEventListener('click', () => {
+        const selected = img.getAttribute('data-engine');
+        currentEngine = selected;
+        engineIcon.src = engineIcons[selected];
+        localStorage.setItem('searchEngine', selected);
+        engineDropdown.classList.add('hidden');
+      });
+    });
+
+    // Klik di luar => tutup dropdown
+    document.addEventListener('click', (e) => {
+      if (!engineDropdown.contains(e.target) && e.target !== engineIcon) {
+        engineDropdown.classList.add('hidden');
+      }
+    });
+
+    // Pencarian
+    document.getElementById('searchInput').addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    const query = this.value.trim();
+    if (query) {
+      let url = '';
+      switch (currentEngine) {
+        case 'google': url = `https://www.google.com/search?q=${encodeURIComponent(query)}`; break;
+        case 'youtube': url = `https://www.youtube.com/results?search_query=${encodeURIComponent(query)}`; break;
+        case 'yahoo': url = `https://search.yahoo.com/search?p=${encodeURIComponent(query)}`; break;
+        case 'msn': url = `https://www.bing.com/search?q=${encodeURIComponent(query)}`; break;
+      }
+      window.open(url, '_blank', 'noopener');
+    }
+  }
+});
+
+  </script>
+</body>
+</html>
